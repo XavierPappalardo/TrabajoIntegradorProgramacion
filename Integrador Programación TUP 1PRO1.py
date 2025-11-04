@@ -1,0 +1,203 @@
+# Buscar país por nombre
+
+def buscar_pais(pais_buscar):
+    coincidencias = []
+    with open("ListaPaises.csv", "r") as archivo:
+        archivo.readline()
+        for i in archivo:
+            linea_archivo = i.split(",")
+            pais = str(linea_archivo[0])
+            if pais_buscar.lower() in pais.lower():
+                coincidencias.append(linea_archivo[0])
+            else:
+                continue
+        if coincidencias == []:
+            print("Lo siento, ningún país cumple con la búsqueda ingresada")
+            return
+        else:
+            print(f"Los países que coinciden total o parcialmente con la búsqueda ingresada son:\n{coincidencias}")
+            return
+
+# Función filtrar por continente
+
+def filtrar_continente():
+    coincidencias = []
+    while True:
+        try:
+            continente_ingresado = input("Ingrese un continente y filtraremos los países que están ubicados en él: ")
+            with open("ListaPaises.csv", "r") as archivo:
+                archivo.readline()
+                for i in archivo:
+                    linea_archivo = i.split(",")
+                    continente_pais = str(linea_archivo[3])
+                    if continente_ingresado.strip().lower() == continente_pais.strip().lower():
+                        coincidencias.append(linea_archivo[0])
+                    else:
+                        continue
+
+                if coincidencias == []:
+                    print("Lo siento, ningún país está en el continente ingresado")
+                    return
+                else:
+                    print(f"Los países que están ubicados en el continente ingresado son:\n{coincidencias}")
+                    return
+                    
+        except ValueError:
+            print("Ingrese un nombre de continente por favor")
+
+# Filtrar por población
+
+def filtrar_poblacion():
+    coincidencias = []
+    while True:
+        try:
+            while True:
+                rango_minimo = int(input("Ingrese un rango mínimo de población para filtrar: "))
+                if rango_minimo > 0:
+                    break
+                else:
+                    print("Por favor, ingrese un número mayor a 0")
+                    continue
+
+            while True:
+                rango_maximo = int(input("Ingrese un rango máximo de población para filtrar: "))
+                if rango_maximo > 0 and rango_maximo > rango_minimo:
+                    break
+                else:
+                    print("Por favor, ingrese un número mayor a 0 y mayor al rango mínimo ingresado anteriormente")
+                    continue
+            with open("ListaPaises.csv", "r") as archivo:
+                archivo.readline()
+                for i in archivo:
+                    linea_archivo = i.split(",")
+                    poblacion_pais = int(linea_archivo[1])
+                    if poblacion_pais >= rango_minimo and poblacion_pais <= rango_maximo:
+                        coincidencias.append(linea_archivo[0])
+                    else:
+                        continue
+
+                if coincidencias == []:
+                    print("Lo siento, ningún país coincide con el rango de población ingresado")
+                    return
+                else:
+                    print(f"Los países que entran en el rango de población ingresado son:\n{coincidencias}")
+                    return
+                
+        except ValueError:
+            print("Ingrese un número entero por favor")
+
+# Función filtrar por superficie
+
+def filtrar_superficie():
+    coincidencias = []
+    while True:
+        try:
+            while True:
+                rango_minimo = int(input("Ingrese un rango mínimo de superficie en km2 para filtrar: "))
+                if rango_minimo > 0:
+                    break
+                else:
+                    print("Por favor, ingrese un número mayor a 0")
+                    continue
+
+            while True:
+                rango_maximo = int(input("Ingrese un rango máximo de superficie en km2 para filtrar: "))
+                if rango_maximo > 0 and rango_maximo > rango_minimo:
+                    break
+                else:
+                    print("Por favor, ingrese un número mayor a 0 y mayor al rango mínimo ingresado anteriormente")
+                    continue
+            with open("ListaPaises.csv", "r") as archivo:
+                archivo.readline()
+                for i in archivo:
+                    linea_archivo = i.split(",")
+                    superficie_pais = int(linea_archivo[2])
+                    if superficie_pais >= rango_minimo and superficie_pais <= rango_maximo:
+                        coincidencias.append(linea_archivo[0])
+                    else:
+                        continue
+
+                if coincidencias == []:
+                    print("Lo siento, ningún país entra en el rango de superficie ingresado")
+                    return
+                else:
+                    print(f"Los países que entran en el rango de superficie ingresado son:\n{coincidencias}")
+                    return
+                
+        except ValueError:
+            print("Ingrese un número entero por favor")
+
+
+# Función filtrar países
+
+def filtrar_paises(opcion_filtrar):
+    if opcion_filtrar.lower() == "a":
+        filtrar_continente()
+        return
+    
+    if opcion_filtrar.lower() == "b":
+        filtrar_poblacion()
+        return
+
+    if opcion_filtrar.lower() == "c":
+        filtrar_superficie()
+        return
+
+# Ordenar países por nombre, población o superficie
+
+def ordenar_paises(opcion_ordenar):
+    if opcion_ordenar.lower() == "a":
+        ordenar_orden_alfabetico()
+        return
+    elif opcion_ordenar.lower() == "b":
+        ordenar_orden_alfabetico_inverso()
+        return
+    elif opcion_ordenar.lower() == "c":
+        ordenar_poblacion_mayor()
+        return
+    elif opcion_ordenar.lower() == "d":
+        ordenar_poblacion_menor()
+        return
+    elif opcion_ordenar.lower() == "e":
+        ordenar_superficie_ascendente()
+        return
+    elif opcion_ordenar.lower() == "f":
+        ordenar_superficie_descendente()
+        return
+    else:
+        print("No se ha seleccionado ninguna opción válida. Por favor, seleccione una de las 6 opciones disponibles")
+        return
+
+# Menú
+
+print("¡Hola! Bienvenido al sistema de gestión de países")
+while True:
+    try:
+        opcion_menu = input("Puede elegir 4 opciones en el menú ingresando el comando correspondiente:\na- Buscar un país por nombre (Puede coincidir total o parcialmente)\nb- Filtrar países\nc- Ordenar países\nd- Mostrar estadísticas: ")
+        if opcion_menu.lower() == "a":
+            while True:
+                pais_buscar = input("Ingrese un país y buscaremos los que coincidan completa o parcialmente. Si desea terminar de buscar, ingrese 'FIN': ")
+                if pais_buscar.lower() == "fin":
+                    break
+                else:
+                    buscar_pais(pais_buscar)
+
+        elif opcion_menu.lower() == "b":
+            while True:
+                opcion_filtrar = input("Elija una opción para filtrar los países que cumplan con la descripción:\na- Para filtrar por continente\nb- Para filtrar por un rango de población\nc- Para filtrar por un rango de superficie\nSi desea terminar de filtrar, ingrese 'FIN': ")
+                if opcion_filtrar.lower() == "fin":
+                    break
+                else:
+                    filtrar_paises(opcion_filtrar)
+
+        elif opcion_menu.lower() == "c":
+            while True:
+                opcion_ordenar = input("Ingrese con qué criterio desea ordenar los países:\na- Para ordenar por orden alfabético\nb- Para ordenar por orden alfabético inverso\nc- Para ordenar por población de mayor a menor\nd- Para ordenar por población de menor a mayor\ne- Para ordenar por superficie de manera ascendente\nf- Para ordenar por superficie de manera descendente\nSi desea terminar de ordenar, ingrese 'FIN': ")
+                if opcion_ordenar.lower() == "fin":
+                    break
+                elif opcion_menu.lower() == "d":
+                    opcion_estadisticas = input("Ingrese qué estadísticas desea ver:\na- Para mostrar el país con la mayor y la menor población\nb- Para mostrar el promedio de población de todos los países\nc- Para mostrar el promedio de la superficie de todos los paises en km2\nd- Para mostrar la cantidad de países de un continente que seleccionará a continuación\nSi desea terminar de examinar, ingrese 'FIN': ")
+                    estadisticas_paises(opcion_estadisticas)
+
+    except ValueError:
+        print("Por favor, ingresa un comando válido")
