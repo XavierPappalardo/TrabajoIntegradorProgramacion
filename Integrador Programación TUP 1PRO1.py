@@ -127,6 +127,102 @@ def filtrar_superficie():
         except ValueError:
             print("Ingrese un número entero por favor")
 
+# Función auxiliar para cargar los datos del CSV
+def obtener_datos_paises():
+    datos_paises = []
+    try:
+        with open("ListaPaises.csv", "r") as archivo:
+            archivo.readline()  # Omitir el encabezado
+            for linea in archivo:
+                linea_archivo = linea.strip().split(",")
+                # Aseguramos que los valores numéricos sean enteros
+                datos_paises.append({
+                    "nombre": linea_archivo[0],
+                    "poblacion": int(linea_archivo[1]),
+                    "superficie": int(linea_archivo[2]),
+                    "continente": linea_archivo[3]
+                })
+        return datos_paises
+    except FileNotFoundError:
+        print("Error: No se encuentra el archivo ListaPaises.csv.")
+        return []
+    except IndexError:
+        print("Error: El formato del archivo CSV es incorrecto.")
+        return []
+    except ValueError:
+        print("Error: Los datos de población o superficie no son números enteros válidos.")
+        return []
+
+# Ordenar por nombre (A-Z)
+def ordenar_orden_alfabetico():
+    datos_paises = obtener_datos_paises()
+    if not datos_paises:
+        return
+    
+    paises_ordenados = sorted(datos_paises, key=lambda pais: pais['nombre'].lower())
+    nombres_ordenados = [pais['nombre'] for pais in paises_ordenados]
+    
+    print(f"Países ordenados alfabéticamente (A-Z):\n{nombres_ordenados}")
+
+def ordenar_orden_alfabetico_inverso():
+    datos_paises = obtener_datos_paises()
+    if not datos_paises:
+        return
+    
+    paises_ordenados = sorted(datos_paises, key=lambda pais: pais['nombre'].lower(), reverse=True)
+    nombres_ordenados = [pais['nombre'] for pais in paises_ordenados]
+    
+    print(f"Países ordenados alfabéticamente (Z-A):\n{nombres_ordenados}")
+
+# Ordenar por población 
+def ordenar_poblacion_mayor():
+    datos_paises = obtener_datos_paises()
+    if not datos_paises:
+        return
+    
+    # Ordena por el valor de 'poblacion' (que es un entero), de mayor a menor
+    paises_ordenados = sorted(datos_paises, key=lambda pais: pais['poblacion'], reverse=True)
+    
+    # Formateamos el resultado para mostrar el nombre y la población
+    resultado = [f"{pais['nombre']} ({pais['poblacion']})" for pais in paises_ordenados]
+    
+    print(f"Países ordenados por población (Mayor a Menor):\n{resultado}")
+
+def ordenar_poblacion_menor():
+    datos_paises = obtener_datos_paises()
+    if not datos_paises:
+        return
+    
+    # Ordena por el valor de 'poblacion' (que es un entero), de menor a mayor (reverse=False por defecto)
+    paises_ordenados = sorted(datos_paises, key=lambda pais: pais['poblacion'])
+    
+    # Formateamos el resultado para mostrar el nombre y la población
+    resultado = [f"{pais['nombre']} ({pais['poblacion']})" for pais in paises_ordenados]
+    
+    print(f"Países ordenados por población (Menor a Mayor):\n{resultado}")
+
+# Ordenar por superficie 
+def ordenar_superficie_ascendente():
+    datos_paises = obtener_datos_paises()
+    if not datos_paises:
+        return
+    
+    paises_ordenados = sorted(datos_paises, key=lambda pais: pais['superficie'])
+    resultado = [f"{pais['nombre']} ({pais['superficie']} km2)" for pais in paises_ordenados]
+    
+    print(f"Países ordenados por superficie (Ascendente):\n{resultado}")
+
+def ordenar_superficie_descendente():
+    datos_paises = obtener_datos_paises()
+    if not datos_paises:
+        return
+    
+    paises_ordenados = sorted(datos_paises, key=lambda pais: pais['superficie'], reverse=True)
+    
+    resultado = [f"{pais['nombre']} ({pais['superficie']} km2)" for pais in paises_ordenados]
+    
+    print(f"Países ordenados por superficie (Descendente):\n{resultado}")
+
 
 # Función filtrar países
 
@@ -134,11 +230,9 @@ def filtrar_paises(opcion_filtrar):
     if opcion_filtrar.lower() == "a":
         filtrar_continente()
         return
-    
     if opcion_filtrar.lower() == "b":
         filtrar_poblacion()
         return
-
     if opcion_filtrar.lower() == "c":
         filtrar_superficie()
         return
@@ -181,7 +275,6 @@ while True:
                     break
                 else:
                     buscar_pais(pais_buscar)
-
         elif opcion_menu.lower() == "b":
             while True:
                 opcion_filtrar = input("Elija una opción para filtrar los países que cumplan con la descripción:\na- Para filtrar por continente\nb- Para filtrar por un rango de población\nc- Para filtrar por un rango de superficie\nSi desea terminar de filtrar, ingrese 'FIN': ")
@@ -189,7 +282,6 @@ while True:
                     break
                 else:
                     filtrar_paises(opcion_filtrar)
-
         elif opcion_menu.lower() == "c":
             while True:
                 opcion_ordenar = input("Ingrese con qué criterio desea ordenar los países:\na- Para ordenar por orden alfabético\nb- Para ordenar por orden alfabético inverso\nc- Para ordenar por población de mayor a menor\nd- Para ordenar por población de menor a mayor\ne- Para ordenar por superficie de manera ascendente\nf- Para ordenar por superficie de manera descendente\nSi desea terminar de ordenar, ingrese 'FIN': ")
