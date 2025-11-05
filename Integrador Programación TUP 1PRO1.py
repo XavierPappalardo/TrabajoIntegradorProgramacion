@@ -223,7 +223,67 @@ def ordenar_superficie_descendente():
     
     print(f"Países ordenados por superficie (Descendente):\n{resultado}")
 
+# Mostrar estadísticas de países
 
+def estadisticas_paises(opcion_estadisticas):
+    try:
+        with open("ListaPaises.csv", "r") as archivo:
+            archivo.readline()  # Omitir encabezado
+            datos = []
+            for linea in archivo:
+                linea_archivo = linea.strip().split(",")
+                datos.append({
+                    "nombre": linea_archivo[0],
+                    "poblacion": int(linea_archivo[1]),
+                    "superficie": int(linea_archivo[2]),
+                    "continente": linea_archivo[3]
+                })
+
+        if not datos:
+            print("No hay datos cargados para mostrar estadísticas.")
+            return
+
+        # Opción a: país con mayor y menor población
+        if opcion_estadisticas.lower() == "a":
+            mayor_poblacion = max(datos, key=lambda p: p["poblacion"])
+            menor_poblacion = min(datos, key=lambda p: p["poblacion"])
+            print(f"País con mayor población: {mayor_poblacion['nombre']} ({mayor_poblacion['poblacion']})")
+            print(f"País con menor población: {menor_poblacion['nombre']} ({menor_poblacion['poblacion']})")
+
+        # Opción b: promedio de población
+        elif opcion_estadisticas.lower() == "b":
+            total_poblacion = sum(p["poblacion"] for p in datos)
+            promedio_poblacion = total_poblacion / len(datos)
+            print(f"Promedio de población de todos los países: {promedio_poblacion:.2f}")
+
+        # Opción c: promedio de superficie
+        elif opcion_estadisticas.lower() == "c":
+            total_superficie = sum(p["superficie"] for p in datos)
+            promedio_superficie = total_superficie / len(datos)
+            print(f"Promedio de superficie de todos los países (km²): {promedio_superficie:.2f}")
+
+        # Opción d: cantidad de países por continente
+        elif opcion_estadisticas.lower() == "d":
+            continente_ingresado = input("Ingrese el continente del que desea conocer la cantidad de países: ")
+            contador = 0
+            for pais in datos:
+                if pais["continente"].strip().lower() == continente_ingresado.strip().lower():
+                    contador += 1
+            if contador == 0:
+                print("No hay países registrados en el continente ingresado.")
+            else:
+                print(f"Cantidad de países en {continente_ingresado.capitalize()}: {contador}")
+
+        elif opcion_estadisticas.lower() == "fin":
+            return
+        else:
+            print("Opción inválida. Ingrese una de las opciones válidas: a, b, c o d.")
+
+    except FileNotFoundError:
+        print("Error: No se encuentra el archivo ListaPaises.csv.")
+    except ValueError:
+        print("Error: Los datos del archivo no son válidos.")
+        
 # Función filtrar países
 
 def filtrar_paises(opcion_filtrar):
@@ -287,9 +347,17 @@ while True:
                 opcion_ordenar = input("Ingrese con qué criterio desea ordenar los países:\na- Para ordenar por orden alfabético\nb- Para ordenar por orden alfabético inverso\nc- Para ordenar por población de mayor a menor\nd- Para ordenar por población de menor a mayor\ne- Para ordenar por superficie de manera ascendente\nf- Para ordenar por superficie de manera descendente\nSi desea terminar de ordenar, ingrese 'FIN': ")
                 if opcion_ordenar.lower() == "fin":
                     break
-                elif opcion_menu.lower() == "d":
-                    opcion_estadisticas = input("Ingrese qué estadísticas desea ver:\na- Para mostrar el país con la mayor y la menor población\nb- Para mostrar el promedio de población de todos los países\nc- Para mostrar el promedio de la superficie de todos los paises en km2\nd- Para mostrar la cantidad de países de un continente que seleccionará a continuación\nSi desea terminar de examinar, ingrese 'FIN': ")
+                else:
+                    ordenar_paises(opcion_ordenar)
+
+        elif opcion_menu.lower() == "d":
+            while True:
+                opcion_estadisticas = input("Ingrese qué estadísticas desea ver:\na- Para mostrar el país con la mayor y la menor población\nb- Para mostrar el promedio de población de todos los países\nc- Para mostrar el promedio de la superficie de todos los países en km2\nd- Para mostrar la cantidad de países de un continente que seleccionará a continuación\nSi desea terminar de examinar, ingrese 'FIN': ")
+                if opcion_estadisticas.lower() == "fin":
+                    break
+                else:
                     estadisticas_paises(opcion_estadisticas)
 
     except ValueError:
         print("Por favor, ingresa un comando válido")
+        
