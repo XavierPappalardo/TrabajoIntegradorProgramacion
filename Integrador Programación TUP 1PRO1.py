@@ -337,6 +337,11 @@ def agregar_pais():
         while True:
             try:
                 agregar_nombre = input("Agregue el nombre del país que desea agregar a la lista: ")
+                with open("ListaPaises.csv", "r") as archivo:
+                    for i in archivo:
+                        if agregar_nombre in i:
+                            print("El país ya está en la lista")
+                            return
                 if agregar_nombre == "":
                     print("Ingrese un nombre de país válido")
                     continue
