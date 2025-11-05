@@ -2,21 +2,25 @@
 
 def buscar_pais(pais_buscar):
     coincidencias = []
-    with open("ListaPaises.csv", "r") as archivo:
-        archivo.readline()
-        for i in archivo:
-            linea_archivo = i.split(",")
-            pais = str(linea_archivo[0])
-            if pais_buscar.lower() in pais.lower():
-                coincidencias.append(linea_archivo[0])
+    if pais_buscar == "":
+        print("Debe ingresar algún caracter para poder realizar una búsqueda")
+        return
+    else:
+        with open("ListaPaises.csv", "r") as archivo:
+            archivo.readline()
+            for i in archivo:
+                linea_archivo = i.split(",")
+                pais = str(linea_archivo[0])
+                if pais_buscar.lower() in pais.lower():
+                    coincidencias.append(linea_archivo[0])
+                else:
+                    continue
+            if coincidencias == []:
+                print("Lo siento, ningún país cumple con la búsqueda ingresada")
+                return
             else:
-                continue
-        if coincidencias == []:
-            print("Lo siento, ningún país cumple con la búsqueda ingresada")
-            return
-        else:
-            print(f"Los países que coinciden total o parcialmente con la búsqueda ingresada son:\n{coincidencias}")
-            return
+                print(f"Los países que coinciden total o parcialmente con la búsqueda ingresada son:\n{coincidencias}")
+                return
 
 # Función filtrar por continente
 
@@ -327,7 +331,7 @@ def ordenar_paises(opcion_ordenar):
 print("¡Hola! Bienvenido al sistema de gestión de países")
 while True:
     try:
-        opcion_menu = input("Puede elegir 4 opciones en el menú ingresando el comando correspondiente:\na- Buscar un país por nombre (Puede coincidir total o parcialmente)\nb- Filtrar países\nc- Ordenar países\nd- Mostrar estadísticas: ")
+        opcion_menu = input("Puede elegir 4 opciones en el menú ingresando el comando correspondiente:\na- Buscar un país por nombre (Puede coincidir total o parcialmente)\nb- Filtrar países\nc- Ordenar países\nd- Mostrar estadísticas\nSi desea terminar de usar el sistema, ingrese 'FIN': ")
         if opcion_menu.lower() == "a":
             while True:
                 pais_buscar = input("Ingrese un país y buscaremos los que coincidan completa o parcialmente. Si desea terminar de buscar, ingrese 'FIN': ")
@@ -357,6 +361,9 @@ while True:
                     break
                 else:
                     estadisticas_paises(opcion_estadisticas)
+        elif opcion_menu.lower() == "fin":
+            print("Gracias por utilizar el sistema de búsqueda de países")
+            break
 
     except ValueError:
         print("Por favor, ingresa un comando válido")
