@@ -16,7 +16,7 @@ Grupo:
 
 -Benjamín Juan Ignacio Arrollo González
 
--Román Ávila.
+-Román Ezequiel Ávila Pino.
 
 
 
