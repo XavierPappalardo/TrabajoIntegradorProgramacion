@@ -329,12 +329,89 @@ def ordenar_paises(opcion_ordenar):
         print("No se ha seleccionado ninguna opción válida. Por favor, seleccione una de las 6 opciones disponibles")
         return
 
+# Agregar países al archivo CSV
+
+def agregar_pais():
+    alfabeto = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
+    while True:
+        while True:
+            try:
+                agregar_nombre = input("Agregue el nombre del país que desea agregar a la lista: ")
+                if agregar_nombre == "":
+                    print("Ingrese un nombre de país válido")
+                    continue
+                elif agregar_nombre == " ":
+                    print("Ingrese un nombre de país válido")
+                    continue
+                else:
+                    caracter_valido = True
+                    for i in agregar_nombre:
+                        if i not in alfabeto:
+                            print("Ingrese un nombre de país válido")
+                            caracter_valido = False
+                            continue
+                    if caracter_valido == True:
+                        break
+            except ValueError:
+                print("Ingrese un caracter válido")
+                
+        while True:
+            try:
+                agregar_poblacion = int(input("Agregue la población total del país que desea agregar a la lista: "))
+                if agregar_nombre == "":
+                    print("Ingrese un número de población válido")
+                    continue
+                elif agregar_nombre == " ":
+                    print("Ingrese un número de población válido")
+                else:
+                    break
+            except ValueError:
+                print("Ingrese un caracter válido")
+                
+        while True:
+            try:
+                agregar_superficie = int(input("Agregue la superficie total en km2 del país que desea agregar a la lista: "))
+                if agregar_superficie == "":
+                    print("Ingrese un número de superficie válido")
+                    continue
+                else:
+                    break
+            except ValueError:
+                print("Ingrese un caracter válido")
+            
+        while True:
+            try:
+                agregar_continente = input("Agregue el nombre del continente al que pertenece el país que desea agregar a la lista: ")
+                if agregar_continente == "":
+                    print("Ingrese un nombre de continente válido")
+                    continue
+                elif agregar_continente == " ":
+                    print("Ingrese un nombre de continente válido")
+                    continue
+                else:
+                    caracter_valido = True
+                    for i in agregar_continente:
+                        if i not in alfabeto:
+                            print("Ingrese un nombre de continente válido")
+                            caracter_valido = False
+                            continue
+                    if caracter_valido == True:
+                        break
+            except ValueError:
+                print("Ingrese un caracter válido")
+                
+        with open("ListaPaises.csv", "a") as archivo:
+            archivo.write(f"{agregar_nombre},{agregar_poblacion},{agregar_superficie},{agregar_continente}")
+        
+        print(f"El país {agregar_nombre} fue agregado con éxito")
+        return
+
 # Menú
 
 print("¡Hola! Bienvenido al sistema de gestión de países")
 while True:
     try:
-        opcion_menu = input("Puede elegir 4 opciones en el menú ingresando el comando correspondiente:\na- Buscar un país por nombre (Puede coincidir total o parcialmente)\nb- Filtrar países\nc- Ordenar países\nd- Mostrar estadísticas\nSi desea terminar de usar el sistema, ingrese 'FIN': ")
+        opcion_menu = input("Puede elegir 6 opciones en el menú ingresando el comando correspondiente:\na- Buscar un país por nombre (Puede coincidir total o parcialmente)\nb- Filtrar países\nc- Ordenar países\nd- Mostrar estadísticas\ne- Para agregar nuevos paises a la lista de países\nf- Si desea salir y terminar de usar el sistema: ")
         if opcion_menu.lower() == "a":
             while True:
                 pais_buscar = input("Ingrese un país y buscaremos los que coincidan completa o parcialmente. Si desea terminar de buscar, ingrese 'FIN': ")
@@ -364,9 +441,23 @@ while True:
                     break
                 else:
                     estadisticas_paises(opcion_estadisticas)
-        elif opcion_menu.lower() == "fin":
+                    
+        elif opcion_menu.lower() == "e":
+            while True:
+                seguir_agregando = input("¿Desea agregar más países a la lista?\nIngrese 'a' para seguir agregando\nO ingrese 'b' si no desea agregar nuevos países: ")
+                if seguir_agregando.lower() == "b":
+                    break
+                elif seguir_agregando.lower() == "a":
+                    agregar_pais()
+                else:
+                    print("Por favor, ingrese un comando válido")
+                    
+        elif opcion_menu.lower() == "f":
             print("Gracias por utilizar el sistema de búsqueda de países")
             break
+
+        else:
+            print("Por favor, ingrese un comando válido")
 
     except ValueError:
         print("Por favor, ingresa un comando válido")
