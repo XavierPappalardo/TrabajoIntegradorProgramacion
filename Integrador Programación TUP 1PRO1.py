@@ -5,6 +5,9 @@ def buscar_pais(pais_buscar):
     if pais_buscar == "":
         print("Debe ingresar algún caracter para poder realizar una búsqueda")
         return
+    elif pais_buscar == " ":
+        print("Debe ingresar algún caracter para poder realizar una búsqueda")
+        return
     else:
         with open("ListaPaises.csv", "r") as archivo:
             archivo.readline()
