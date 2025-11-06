@@ -40,9 +40,9 @@ Mostrar estadísticas: Muestra algunas estadísticas, como por ejemplo: País co
 
 Instrucciones de Ejecución:
 
-Al ejecutar el programa, debes elegir entre las 4 opciones presentadas, ingresando
+Al ejecutar el programa, debes elegir entre las 6 opciones presentadas, ingresando
 
-las letras "a-b-c-d". El programa presenta 4 opciones:
+las letras "a-b-c-d". El programa presenta 6 opciones:
 
 a- Buscar un país por nombre (Puede coincidir total o parcialmente)
 
@@ -51,6 +51,10 @@ b- Filtrar países
 c- Ordenar países
 
 d- Mostrar estadísticas
+
+e- Agregar nuevo país
+
+f- Salir
 
 
 
@@ -316,7 +320,43 @@ Ingrese el continente del que desea conocer la cantidad de países: America
 
 Cantidad de países en America: 7
 
+e- Añadir país a la lista:
+
+Esta función sirve para añadir un país mas con sus características a la lista. Para usarla, debe seleccionar la opción "e". El programa le preguntará si quiere agregar nuevos países, y pedirá que ingrese los datos.
 
 
 
+Ejemplo de ejecución:
+
+¿Desea agregar más países a la lista?
+
+Ingrese 'a' para seguir agregando
+
+O ingrese 'b' si no desea agregar nuevos países: a
+
+Agregue el nombre del país que desea agregar a la lista: Isla Puan
+
+Ingrese un nombre de país válido
+
+Agregue el nombre del país que desea agregar a la lista: Honduras
+
+Agregue la población total del país que desea agregar a la lista: 100000
+
+Agregue la superficie total en km2 del país que desea agregar a la lista: 100000
+
+Agregue el nombre del continente al que pertenece el país que desea agregar a la lista: America
+
+El país Honduras fue agregado con éxito
+
+¿Desea agregar más países a la lista?
+
+Ingrese 'a' para seguir agregando
+
+O ingrese 'b' si no desea agregar nuevos países: b
+
+
+
+f- Salir del programa
+
+Presionando F, se muestra un mensaje de despedida, y finaliza el programa.
 
