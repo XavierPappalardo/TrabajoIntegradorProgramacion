@@ -332,11 +332,11 @@ def ordenar_paises(opcion_ordenar):
 # Agregar países al archivo CSV
 
 def agregar_pais():
-    alfabeto = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
+    alfabeto = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ "
     while True:
         while True:
             try:
-                agregar_nombre = input("Agregue el nombre del país que desea agregar a la lista: ")
+                agregar_nombre = input("Agregue el nombre del país que desea agregar a la lista: ").strip()
                 with open("ListaPaises.csv", "r") as archivo:
                     for i in archivo:
                         if agregar_nombre in i:
@@ -386,7 +386,7 @@ def agregar_pais():
             
         while True:
             try:
-                agregar_continente = input("Agregue el nombre del continente al que pertenece el país que desea agregar a la lista: ")
+                agregar_continente = input("Agregue el nombre del continente al que pertenece el país que desea agregar a la lista: ").strip()
                 if agregar_continente == "":
                     print("Ingrese un nombre de continente válido")
                     continue
@@ -406,7 +406,7 @@ def agregar_pais():
                 print("Ingrese un caracter válido")
                 
         with open("ListaPaises.csv", "a") as archivo:
-            archivo.write(f"{agregar_nombre},{agregar_poblacion},{agregar_superficie},{agregar_continente}")
+            archivo.write(f"{agregar_nombre},{agregar_poblacion},{agregar_superficie},{agregar_continente}\n")
         
         print(f"El país {agregar_nombre} fue agregado con éxito")
         return
